@@ -1,0 +1,79 @@
+---
+title: "Get started with CAMPSIS"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Get started with CAMPSIS}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+### Library import
+
+First import the `campsis` package:
+
+```{r, message=FALSE}
+library(campsis)
+```
+
+### Load model
+
+Load 2-compartment PK model from built-in model library:
+
+```{r}
+model <- model_library$advan4_trans4
+```
+
+### Create dataset
+
+Create your dataset in CAMPSIS. For instance, let's give 1000mg QD for 3 days and observe every hour.
+
+```{r}
+dataset <- Dataset(10) %>%
+  add(Bolus(time=c(0,24,48), amount=1000)) %>%
+  add(Observations(times=seq(0,72, by=1)))
+```
+
+### Simulate
+
+Simulate this very simple protocol:
+
+```{r}
+results <- model %>% simulate(dataset, dest="RxODE", seed=1)
+head(results)
+```
+
+### Plot results
+
+Plot these results:
+
+```{r get_started_spaguetti_plot, fig.align='center', fig.height=4, fig.width=8}
+spaghettiPlot(results, "CP")
+```
+
+A shaded plot may also be used:
+
+```{r get_started_shaded_plot, fig.align='center', fig.height=4, fig.width=8}
+shadedPlot(results, "CP")
+```
+
+### Simulate 2 arms
+
+We can also simulate two different treatment arms. Say the first arm receives 1000mg QD and the second arm 2000mg QD.
+
+```{r get_started_2arms_plot, fig.align='center', fig.height=4, fig.width=8}
+arm1 <- Arm(subjects=50, label="1000 mg QD")
+arm2 <- Arm(subjects=50, label="2000 mg QD")
+
+arm1 <- arm1 %>% add(Bolus(time=c(0,24,48), amount=1000))
+arm1 <- arm1 %>% add(Observations(times=seq(0,72, by=1)))
+
+arm2 <- arm2 %>% add(Bolus(time=c(0,24,48), amount=2000))
+arm2 <- arm2 %>% add(Observations(times=seq(0,72, by=1)))
+
+dataset <- Dataset() %>% add(c(arm1, arm2))
+
+results <- model %>% simulate(dataset, dest="RxODE", seed=1)
+shadedPlot(results, "CP", scenarios="ARM")
+```
