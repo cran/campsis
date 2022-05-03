@@ -14,7 +14,19 @@
 
 <title>Get started with CAMPSIS</title>
 
-<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -24,6 +36,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -125,7 +138,187 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 
 
@@ -153,17 +346,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="create-dataset" class="section level3">
 <h3>Create dataset</h3>
-<p>Create your dataset in CAMPSIS. For instance, let’s give 1000mg QD for 3 days and observe every hour.</p>
+<p>Create your dataset in CAMPSIS. For instance, let’s give 1000mg QD
+for 3 days and observe every hour.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">Dataset</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add</span>(<span class="fu">Bolus</span>(<span class="at">time=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">24</span>,<span class="dv">48</span>), <span class="at">amount=</span><span class="dv">1000</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add</span>(<span class="fu">Bolus</span>(<span class="at">time=</span><span class="dv">0</span>, <span class="at">amount=</span><span class="dv">1000</span>, <span class="at">ii=</span><span class="dv">24</span>, <span class="at">addl=</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add</span>(<span class="fu">Observations</span>(<span class="at">times=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">72</span>, <span class="at">by=</span><span class="dv">1</span>)))</span></code></pre></div>
 </div>
 <div id="simulate" class="section level3">
 <h3>Simulate</h3>
 <p>Simulate this very simple protocol:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> model <span class="sc">%&gt;%</span> <span class="fu">simulate</span>(dataset, <span class="at">dest=</span><span class="st">&quot;RxODE&quot;</span>, <span class="at">seed=</span><span class="dv">1</span>)</span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> model <span class="sc">%&gt;%</span> <span class="fu">simulate</span>(dataset, <span class="at">seed=</span><span class="dv">1</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(results)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 17
+<pre><code>## # A tibble: 6 × 17
 ##      ID  TIME   ARM    KA    CL    V2    V3     Q    S2     F    CP OBS_CP     Y
 ##   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
 ## 1     1     0     0 0.974  6.20  92.5  25.4  3.62  92.5  0     0      0     0   
@@ -172,8 +366,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4     1     3     0 0.974  6.20  92.5  25.4  3.62  92.5  8.28  8.28  10.4  10.4 
 ## 5     1     4     0 0.974  6.20  92.5  25.4  3.62  92.5  7.89  7.89   8.13  8.13
 ## 6     1     5     0 0.974  6.20  92.5  25.4  3.62  92.5  7.35  7.35  10.2  10.2 
-## # ... with 4 more variables: A_DEPOT &lt;dbl&gt;, A_CENTRAL &lt;dbl&gt;,
-## #   A_PERIPHERAL &lt;dbl&gt;, A_OUTPUT &lt;dbl&gt;</code></pre>
+## # … with 4 more variables: A_DEPOT &lt;dbl&gt;, A_CENTRAL &lt;dbl&gt;, A_PERIPHERAL &lt;dbl&gt;,
+## #   A_OUTPUT &lt;dbl&gt;</code></pre>
 </div>
 <div id="plot-results" class="section level3">
 <h3>Plot results</h3>
@@ -186,21 +380,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="simulate-2-arms" class="section level3">
 <h3>Simulate 2 arms</h3>
-<p>We can also simulate two different treatment arms. Say the first arm receives 1000mg QD and the second arm 2000mg QD.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>arm1 <span class="ot">&lt;-</span> <span class="fu">Arm</span>(<span class="at">subjects=</span><span class="dv">50</span>, <span class="at">label=</span><span class="st">&quot;1000 mg QD&quot;</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>arm2 <span class="ot">&lt;-</span> <span class="fu">Arm</span>(<span class="at">subjects=</span><span class="dv">50</span>, <span class="at">label=</span><span class="st">&quot;2000 mg QD&quot;</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>arm1 <span class="ot">&lt;-</span> arm1 <span class="sc">%&gt;%</span> <span class="fu">add</span>(<span class="fu">Bolus</span>(<span class="at">time=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">24</span>,<span class="dv">48</span>), <span class="at">amount=</span><span class="dv">1000</span>))</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>arm1 <span class="ot">&lt;-</span> arm1 <span class="sc">%&gt;%</span> <span class="fu">add</span>(<span class="fu">Observations</span>(<span class="at">times=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">72</span>, <span class="at">by=</span><span class="dv">1</span>)))</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>arm2 <span class="ot">&lt;-</span> arm2 <span class="sc">%&gt;%</span> <span class="fu">add</span>(<span class="fu">Bolus</span>(<span class="at">time=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">24</span>,<span class="dv">48</span>), <span class="at">amount=</span><span class="dv">2000</span>))</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>arm2 <span class="ot">&lt;-</span> arm2 <span class="sc">%&gt;%</span> <span class="fu">add</span>(<span class="fu">Observations</span>(<span class="at">times=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">72</span>, <span class="at">by=</span><span class="dv">1</span>)))</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">Dataset</span>() <span class="sc">%&gt;%</span> <span class="fu">add</span>(<span class="fu">c</span>(arm1, arm2))</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> model <span class="sc">%&gt;%</span> <span class="fu">simulate</span>(dataset, <span class="at">dest=</span><span class="st">&quot;RxODE&quot;</span>, <span class="at">seed=</span><span class="dv">1</span>)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">shadedPlot</span>(results, <span class="st">&quot;CP&quot;</span>, <span class="at">scenarios=</span><span class="st">&quot;ARM&quot;</span>)</span></code></pre></div>
+<p>We can also simulate two different treatment arms. Say the first arm
+receives 1000mg QD and the second arm 2000mg QD. This can be implemented
+as follows:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First treatment arm</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>arm1 <span class="ot">&lt;-</span> <span class="fu">Arm</span>(<span class="at">subjects=</span><span class="dv">50</span>, <span class="at">label=</span><span class="st">&quot;1000 mg QD&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add</span>(<span class="fu">Bolus</span>(<span class="at">time=</span><span class="dv">0</span>, <span class="at">amount=</span><span class="dv">1000</span>, <span class="at">ii=</span><span class="dv">24</span>, <span class="at">addl=</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add</span>(<span class="fu">Observations</span>(<span class="at">times=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">72</span>, <span class="at">by=</span><span class="dv">1</span>)))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Second treatment arm</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>arm2 <span class="ot">&lt;-</span> <span class="fu">Arm</span>(<span class="at">subjects=</span><span class="dv">50</span>, <span class="at">label=</span><span class="st">&quot;2000 mg QD&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add</span>(<span class="fu">Bolus</span>(<span class="at">time=</span><span class="dv">0</span>, <span class="at">amount=</span><span class="dv">2000</span>, <span class="at">ii=</span><span class="dv">24</span>, <span class="at">addl=</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add</span>(<span class="fu">Observations</span>(<span class="at">times=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">72</span>, <span class="at">by=</span><span class="dv">1</span>)))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">Dataset</span>() <span class="sc">%&gt;%</span> <span class="fu">add</span>(<span class="fu">c</span>(arm1, arm2))</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> model <span class="sc">%&gt;%</span> <span class="fu">simulate</span>(dataset, <span class="at">seed=</span><span class="dv">1</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">shadedPlot</span>(results, <span class="st">&quot;CP&quot;</span>, <span class="at">scenarios=</span><span class="st">&quot;ARM&quot;</span>)</span></code></pre></div>
 <p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+</div>
+<div id="going-further" class="section level3">
+<h3>Going further</h3>
+<p>We invite you to check out the other <a href="https://calvagone.github.io/campsis.doc/articles/">vignettes</a>.
+Have fun with CAMPSIS!</p>
 </div>
 
 
