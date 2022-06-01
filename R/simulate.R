@@ -46,12 +46,14 @@ setGeneric("simulate", function(model, dataset, dest=NULL, events=NULL, scenario
 #' @keywords internal
 #' 
 getSimulationEngineType <- function(dest) {
-  if (dest=="RxODE") {
-    engine <- new("rxode_engine")
+  if (dest=="rxode2") {
+    engine <- new("rxode_engine", rxode2=TRUE)
+  } else if (dest=="RxODE") {
+    engine <- new("rxode_engine", rxode2=FALSE)
   } else if (dest=="mrgsolve") {
     engine <- new("mrgsolve_engine")
   } else {
-    stop("Only RxODE and mrgsolve are supported for now")
+    stop("Only rxode2, RxODE and mrgsolve are supported for now")
   }
   return(engine)
 }
@@ -377,7 +379,8 @@ processSimulateArguments <- function(model, dataset, dest, outvars, dosing, ...)
   # Extra argument declare (for mrgsolve only)
   user_declare <- processExtraArg(args, name="declare", mandatory=FALSE)
   summary <- processExtraArg(args, name="summary", default=DatasetSummary(), mandatory=TRUE)
-  declare <- unique(c(summary@iov_names, summary@covariate_names, summary@occ_names, user_declare, "ARM", "EVENT_RELATED"))    
+  declare <- unique(c(summary@iov_names, summary@covariate_names, summary@occ_names,
+                      summary@tsld_tdos_names, user_declare, "ARM", "EVENT_RELATED"))    
 
   # Remove initial conditions from CAMPSIS model before export (if present)
   if (iteration@index > 1) {
@@ -470,7 +473,11 @@ setMethod("simulate", signature=c("campsis_model", "tbl_df", "rxode_engine", "ev
 
   # Instantiate RxODE model
   rxmod <- config$engineModel
-  mod <- RxODE::RxODE(paste0(rxmod@code, collapse="\n"))
+  if (dest@rxode2) {
+    mod <- rxode2::rxode2(paste0(rxmod@code, collapse="\n"))
+  } else {
+    mod <- RxODE::RxODE(paste0(rxmod@code, collapse="\n"))
+  }
   
   # Preparing parameters
   params <- rxmod@theta
@@ -490,12 +497,14 @@ setMethod("simulate", signature=c("campsis_model", "tbl_df", "rxode_engine", "ev
   results <- purrr::map2_df(.x=config$subdatasets, .y=seq_along(config$subdatasets), .f=function(subdataset, index) {
     inits <- getInitialConditions(subdataset, iteration=config$iteration, cmtNames=config$cmtNames)
 
-    # Covariate interpolation
-    covs_interpolation <- ifelse(nocb, "nocb", "constant")
-    
     # Launch simulation with RxODE
-    tmp <- RxODE::rxSolve(object=mod, params=params, omega=omega, sigma=sigma, events=subdataset, returnType="tibble",
-                          keep=keep, inits=inits, covs_interpolation=covs_interpolation, addDosing=dosing)
+    if (dest@rxode2) {
+      tmp <- rxode2::rxSolve(object=mod, params=params, omega=omega, sigma=sigma, events=subdataset, returnType="tibble",
+                            keep=keep, inits=inits, covsInterpolation=ifelse(nocb, "nocb", "locf"), addDosing=dosing, addCov=FALSE)
+    } else {
+      tmp <- RxODE::rxSolve(object=mod, params=params, omega=omega, sigma=sigma, events=subdataset, returnType="tibble",
+                            keep=keep, inits=inits, covs_interpolation=ifelse(nocb, "nocb", "constant"), addDosing=dosing)
+    }
     
     # Tick progress
     config$progress <- config$progress %>% updateSlice(index)
@@ -518,6 +527,8 @@ setMethod("simulate", signature=c("campsis_model", "tbl_df", "rxode_engine", "ev
   return(results %>% reorderColumns(dosing=dosing))
 })
 
+#' @importFrom purrr map2_df
+#' @importFrom digest sha1
 #' @rdname simulate
 setMethod("simulate", signature=c("campsis_model", "tbl_df", "mrgsolve_engine", "events", "scenarios", "function", "character", "function", "integer", "integer", "logical", "logical"),
           definition=function(model, dataset, dest, events, scenarios, tablefun, outvars, outfun, seed, replicates, nocb, dosing, ...) {
@@ -544,10 +555,18 @@ setMethod("simulate", signature=c("campsis_model", "tbl_df", "mrgsolve_engine", 
   for (variable in config$declare) {
     mrgmod@param <- mrgmod@param %>% append(paste0(variable, " : ", 0, " : ", variable))
   }
+
+  mrgmodCode <- mrgmod %>% toString()
+  mrgmodHash <- digest::sha1(mrgmodCode)
   
   # Instantiate mrgsolve model
-  mod <- suppressMessages(mrgsolve::mcode(model="model", code=mrgmod %>% toString(), quiet=TRUE))
-  
+  withCallingHandlers({
+    mod <- mrgsolve::mcode(model=paste0("mod_", mrgmodHash), code=mrgmodCode, quiet=TRUE)
+  }, message = function(msg) {
+    if (msg$message %>% startsWith("(waiting)"))
+      invokeRestart("muffleMessage")
+  })
+
   results <-  purrr::map2_df(.x=config$subdatasets, .y=seq_along(config$subdatasets), .f=function(subdataset, index) {
     inits <- getInitialConditions(subdataset, iteration=config$iteration, cmtNames=config$cmtNames)
 
