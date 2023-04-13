@@ -2,7 +2,7 @@
 library(campsis)
 
 ## -----------------------------------------------------------------------------
-model <- model_library$advan4_trans4
+model <- model_suite$pk$`2cpt_fo`
 
 ## -----------------------------------------------------------------------------
 dataset <- Dataset(10) %>%
@@ -14,10 +14,10 @@ results <- model %>% simulate(dataset, seed=1)
 head(results)
 
 ## ----get_started_spaguetti_plot, fig.align='center', fig.height=4, fig.width=8----
-spaghettiPlot(results, "CP")
+spaghettiPlot(results, "CONC")
 
 ## ----get_started_shaded_plot, fig.align='center', fig.height=4, fig.width=8----
-shadedPlot(results, "CP")
+shadedPlot(results, "CONC")
 
 ## ----get_started_2arms_plot, fig.align='center', fig.height=4, fig.width=8, message=F----
 # First treatment arm
@@ -33,5 +33,5 @@ arm2 <- Arm(subjects=50, label="2000 mg QD") %>%
 dataset <- Dataset() %>% add(c(arm1, arm2))
 
 results <- model %>% simulate(dataset, seed=1)
-shadedPlot(results, "CP", scenarios="ARM")
+shadedPlot(results, "CONC", scenarios="ARM")
 
