@@ -1,6 +1,6 @@
-b383596544b2c1727c3b25da43350db3 *DESCRIPTION
+fc6fcde58c95ff1695561e287834f421 *DESCRIPTION
 aae7443c9ff5e1dcf43f229a779e45dd *NAMESPACE
-8b41d7398a08759b5b85fd4f455e26bb *NEWS.md
+93638ced05f28044422db73fd0b32e2a *NEWS.md
 fe45f0165fd434fb07045c1a8d3ec298 *R/arm.R
 2053538292b38ad5439119526ca216b0 *R/arms.R
 53bbb181bb330ca1f4d5096b56b37887 *R/bootstrap.R
@@ -311,7 +311,7 @@ ab9a79531164742f338cb1bd1a9947db *tests/testthat/testParameterUncertainty.R
 867699b34d1c250f008186369e8b0189 *tests/testthat/testSeed.R
 9aa52c2644d49e95bbdfe478fda6f6bb *tests/testthat/testSettings.R
 97f2710fbf35d978b2f2d13830e81a5a *tests/testthat/testShowMethod.R
-4e8683c0a660cbd7edf0f169a3423985 *tests/testthat/testSimulateArguments.R
+335ef7d88984ad761e5262a09981f55c *tests/testthat/testSimulateArguments.R
 9f3e83544b188c0876f3929216330678 *tests/testthat/testSimulateBioavailability.R
 c32360ccf24198c1c5f2b127c0edf912 *tests/testthat/testSimulateBolus.R
 812f72b9356336ba2d89e95e327bee28 *tests/testthat/testSimulateBolusInfusionSameCmt.R
@@ -338,7 +338,7 @@ f8d91983cd610f4506f708f6a3b1718e *tests/testthat/testSimulateTimeVaryingCovariat
 ff1533744439ff4f0bfacbad39e19bd5 *tests/testthat/testSimulateWeirdCases.R
 e6fd67e51751529ff3d07bf6552d0c39 *tests/testthat/testTreatment.R
 cd26c96612483649af80591b12d174c8 *tests/testthat/testTreatmentEntry.R
-34d650c035bcfc64d285b61596a5c4ba *tests/testthat/testUtils.R
+e43f5e3c2dc03634fc5e7e25ab11867c *tests/testthat/testUtils.R
 92c2ed0485b6fd0bccd9cd851037b583 *vignettes/campsis.Rmd
 2bb8cd89ecba606599b091f4b895fe93 *vignettes/resources/Targets_Squeletton/R/my_script.R
 7abfa8836add582bf57a268909fa537a *vignettes/resources/Targets_Squeletton/_targets.R
