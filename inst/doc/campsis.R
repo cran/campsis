@@ -1,4 +1,4 @@
-## ---- message=FALSE-----------------------------------------------------------
+## ----message=FALSE------------------------------------------------------------
 library(campsis)
 
 ## -----------------------------------------------------------------------------
@@ -9,7 +9,7 @@ dataset <- Dataset(10) %>%
   add(Bolus(time=0, amount=1000, ii=24, addl=2)) %>%
   add(Observations(times=seq(0,72, by=1)))
 
-## ---- message=F---------------------------------------------------------------
+## ----message=F----------------------------------------------------------------
 results <- model %>% simulate(dataset, seed=1)
 head(results)
 
@@ -33,5 +33,5 @@ arm2 <- Arm(subjects=50, label="2000 mg QD") %>%
 dataset <- Dataset() %>% add(c(arm1, arm2))
 
 results <- model %>% simulate(dataset, seed=1)
-shadedPlot(results, "CONC", scenarios="ARM")
+shadedPlot(results, "CONC", colour="ARM")
 
