@@ -7,7 +7,7 @@
 overwriteNonRegressionFiles <- FALSE
 testFolder <- ""
 skipLongTest <- TRUE
-skipVdiffrTest <- TRUE
+skipVdiffrTest <- FALSE
 testEngines <- c("rxode2", "mrgsolve")
 
 datasetInMemory <- function(dataset, model=NULL, seed, doseOnly=TRUE, settings, dest) {
