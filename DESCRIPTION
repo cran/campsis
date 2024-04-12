@@ -1,7 +1,7 @@
 Type: Package
 Package: campsis
 Title: Generic PK/PD Simulation Platform CAMPSIS
-Version: 1.5.1
+Version: 1.5.2
 Authors@R: 
     person("Nicolas", "Luyckx", , "nicolas.luyckx@calvagone.com", role = c("aut", "cre"))
 Description: A generic, easy-to-use and intuitive
@@ -29,13 +29,14 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 RoxygenNote: 7.2.3
-Collate: 'global.R' 'utilities.R' 'check.R' 'generic.R' 'data.R'
-        'seed.R' 'distribution.R' 'dataset_config.R' 'time_entry.R'
-        'occasion.R' 'occasions.R' 'treatment_iov.R' 'treatment_iovs.R'
-        'dose_adaptation.R' 'dose_adaptations.R' 'treatment_entry.R'
-        'treatment.R' 'observations.R' 'observations_set.R'
-        'covariate.R' 'covariates.R' 'bootstrap.R' 'protocol.R' 'arm.R'
-        'arms.R' 'event.R' 'events.R' 'scenario.R' 'scenarios.R'
+Collate: 'global.R' 'utilities.R' 'time_utilities.R' 'check.R'
+        'generic.R' 'data.R' 'seed.R' 'distribution.R'
+        'dataset_config.R' 'time_entry.R' 'occasion.R' 'occasions.R'
+        'treatment_iov.R' 'treatment_iovs.R' 'dose_adaptation.R'
+        'dose_adaptations.R' 'treatment_entry.R' 'treatment.R'
+        'observations.R' 'observations_set.R' 'covariate.R'
+        'covariates.R' 'bootstrap.R' 'protocol.R' 'arm.R' 'arms.R'
+        'event.R' 'events.R' 'scenario.R' 'scenarios.R'
         'simulation_engine.R' 'dataset.R' 'parameter_uncertainty.R'
         'event_logic.R' 'dataset_summary.R' 'hardware_settings.R'
         'simulation_progress.R' 'solver_settings.R' 'nocb_settings.R'
@@ -44,8 +45,8 @@ Collate: 'global.R' 'utilities.R' 'check.R' 'generic.R' 'data.R'
         'simulate_preprocess.R' 'simulate.R' 'results_processing.R'
         'default_plot.R'
 NeedsCompilation: no
-Packaged: 2024-02-16 10:58:58 UTC; nicolas.luyckx
+Packaged: 2024-04-12 08:35:50 UTC; nicolas.luyckx
 Author: Nicolas Luyckx [aut, cre]
 Maintainer: Nicolas Luyckx <nicolas.luyckx@calvagone.com>
 Repository: CRAN
-Date/Publication: 2024-02-16 11:20:08 UTC
+Date/Publication: 2024-04-12 09:00:09 UTC
