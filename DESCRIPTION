@@ -1,7 +1,7 @@
 Type: Package
 Package: campsis
 Title: Generic PK/PD Simulation Platform CAMPSIS
-Version: 1.5.2
+Version: 1.5.3
 Authors@R: 
     person("Nicolas", "Luyckx", , "nicolas.luyckx@calvagone.com", role = c("aut", "cre"))
 Description: A generic, easy-to-use and intuitive
@@ -38,15 +38,15 @@ Collate: 'global.R' 'utilities.R' 'time_utilities.R' 'check.R'
         'covariates.R' 'bootstrap.R' 'protocol.R' 'arm.R' 'arms.R'
         'event.R' 'events.R' 'scenario.R' 'scenarios.R'
         'simulation_engine.R' 'dataset.R' 'parameter_uncertainty.R'
-        'event_logic.R' 'dataset_summary.R' 'hardware_settings.R'
-        'simulation_progress.R' 'solver_settings.R' 'nocb_settings.R'
-        'declare_settings.R' 'progress_settings.R'
-        'internal_settings.R' 'simulation_settings.R' 'plan_setup.R'
-        'simulate_preprocess.R' 'simulate.R' 'results_processing.R'
-        'default_plot.R'
+        'event_logic.R' 'dataset_summary.R' 'outfun.R'
+        'hardware_settings.R' 'simulation_progress.R'
+        'solver_settings.R' 'nocb_settings.R' 'declare_settings.R'
+        'progress_settings.R' 'internal_settings.R'
+        'simulation_settings.R' 'plan_setup.R' 'simulate_preprocess.R'
+        'simulate.R' 'results_processing.R' 'default_plot.R'
 NeedsCompilation: no
-Packaged: 2024-04-12 08:35:50 UTC; nicolas.luyckx
+Packaged: 2024-07-01 09:08:13 UTC; nicolas.luyckx
 Author: Nicolas Luyckx [aut, cre]
 Maintainer: Nicolas Luyckx <nicolas.luyckx@calvagone.com>
 Repository: CRAN
-Date/Publication: 2024-04-12 09:00:09 UTC
+Date/Publication: 2024-07-01 09:30:06 UTC
