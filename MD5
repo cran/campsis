@@ -1,6 +1,6 @@
-d5a9044f5e12c2fcc6c0014584a254f6 *DESCRIPTION
+73dea82ad14cbd2da067d65556b8eb8d *DESCRIPTION
 29ffc28c83d38545a12533ebd06daaf6 *NAMESPACE
-7b864b9d01b6b03474bff5a8f74ea696 *NEWS.md
+76fecbb0efd5135db2d9a1cd2fda5c42 *NEWS.md
 b99414fe5cb592575ef003e738d72a91 *R/arm.R
 2053538292b38ad5439119526ca216b0 *R/arms.R
 ed8f8398bab87c183f8036b651497e3a *R/bootstrap.R
@@ -8,7 +8,7 @@ ed8f8398bab87c183f8036b651497e3a *R/bootstrap.R
 b710e1afc7b1378cc9b922688e2f21cf *R/covariate.R
 633af560921a7a9eb57380d0de0a9ac0 *R/covariates.R
 2bc86d9d237665385e309a83adcbb47c *R/data.R
-85d7cde494749c3222377865d09f15d7 *R/dataset.R
+9c9e9fb34bdb3ab76a0065880e2ecff7 *R/dataset.R
 9434dcb5012367a029302c3b8d67e051 *R/dataset_config.R
 a0459fc6db3d434e8090c0fffe5a4250 *R/dataset_summary.R
 d51ad033e2f7cdb859790bfd2f8116dd *R/declare_settings.R
@@ -37,8 +37,8 @@ ed5d25d0f65bf01f0f147df9325d2d1e *R/progress_settings.R
 ad7c71b31459cb0ddbb0ed2bf9cc1927 *R/scenario.R
 6cf2a09dff9946e848ed7ec534acea40 *R/scenarios.R
 0e56a5f918b86021ddb8948e47ce75d6 *R/seed.R
-d59e5649e5e83c54a6b0a1cdf83a2a5a *R/simulate.R
-4cede3443e2092446f3deba7cc655d01 *R/simulate_preprocess.R
+315974715ae546c6d889850379ab3f87 *R/simulate.R
+b37301756c1fd7c72239b0083765992a *R/simulate_preprocess.R
 af2addedf8ac234679ca412ead429277 *R/simulation_engine.R
 df081414a4aa342ed2a80dc43857573d *R/simulation_progress.R
 e7e9cc5a8226fc426552306eac65728d *R/simulation_settings.R
@@ -50,7 +50,7 @@ d8d59eefe15c94bb9fa449da599b1750 *R/treatment.R
 988d70fe397a01c9de26dd70145ac23e *R/treatment_iov.R
 259061ca34fad0de96507a324ce21deb *R/treatment_iovs.R
 20c2ef32168d714862cbdbc43b0d996f *R/utilities.R
-3f1e04efa5f5427f8e5e7a32d0ee7ee1 *README.md
+ea36a256a96c4d254a57b7a3c7a6205a *README.md
 b710956dd85a353844d8724f0c60cf57 *build/vignette.rds
 11dc4c774f5d5e6dff50f2571003a04a *data/nhanes.rda
 3224e2bda8c735c760d500842e51558d *inst/doc/campsis.R
@@ -63,7 +63,7 @@ f58d928be4088addf594b2726961241f *man/Bolus.Rd
 a04eefac72830625b2fd65341e4f9fe2 *man/BootstrapDistribution.Rd
 b23a55d0f419821b34d1dc0960146b72 *man/ConstantDistribution.Rd
 711219c318d74e33da871213fe33b00a *man/Covariate.Rd
-c3cfd939eb4013e830b33af394ed8e22 *man/Dataset.Rd
+3190cb1a73bf7241bdfeaaf8674c2a8a *man/Dataset.Rd
 c024bd0ffc7635d521e972cb37bb3598 *man/DatasetConfig.Rd
 f58cb9e0bc8072e97108e56b146e1a8c *man/DatasetSummary.Rd
 29e3e62c354ab741e402c2c434341858 *man/Declare.Rd
@@ -218,7 +218,7 @@ dd14ecacf73be8c652150098b82f3bb6 *man/setSubjects.Rd
 77a863cd6c2f4635e3d761d1124a2baa *man/setupPlanDefault.Rd
 ee123d717eba8f0283be52fc17b75427 *man/setupPlanSequential.Rd
 62ef1c6409b4673ba1463effe9425746 *man/shadedPlot.Rd
-108278e39f1cf0f8e1880eb0f65bb718 *man/simulate.Rd
+4ccb9d9592b9b7b8c6fc62dba01927d3 *man/simulate.Rd
 0f544a075c297242b4889497df2dd7a3 *man/simulateDelegate.Rd
 316b66551494d7491dab2dbf110f7907 *man/simulateDelegateCore.Rd
 741f9743f6dde77dd7175734641940c7 *man/simulateScenarios.Rd
@@ -348,7 +348,7 @@ a4421e0f44fc85e2a541838c860e5d33 *tests/testthat/testParameterUncertainty.R
 578f88c582f959744e5b460bf4fb4e52 *tests/testthat/testShowMethod.R
 e9ad7f7b9c13485441ed74502577a83e *tests/testthat/testSimulateArguments.R
 7b143103a65ef540bcd55ac8b4b598e0 *tests/testthat/testSimulateBioavailability.R
-1cb4e6b4711c00bc1edeea4c06889c37 *tests/testthat/testSimulateBolus.R
+799f111ee6a5b8f3641b33ad0dda68fe *tests/testthat/testSimulateBolus.R
 5c8853c3383a421c82d19de42dd09f2d *tests/testthat/testSimulateBolusInfusionSameCmt.R
 ebb504c482d34dcff448159ca5b2530a *tests/testthat/testSimulateDeclare.R
 444e23ce3b808fec2452afad552a7f4c *tests/testthat/testSimulateDoseAdaptation.R
@@ -365,7 +365,7 @@ a4b4e95c4ddd89aa0c376fa086f2d905 *tests/testthat/testSimulateNocbLocf.R
 fdfa2418010633a577276abd84935ab0 *tests/testthat/testSimulateOutvars.R
 b5e94fd0fe330f93f78c685e36e69950 *tests/testthat/testSimulateRUV.R
 927d4385799c83fdb05ad4ae82c3317d *tests/testthat/testSimulateReplicates.R
-d369bdeb4c131baa3e31f2501b567da7 *tests/testthat/testSimulateScenarios.R
+a110cb2d87951a4a2be3393701e670fe *tests/testthat/testSimulateScenarios.R
 a2c9673ba060710476bee3e7cace964d *tests/testthat/testSimulateTSLD.R
 27061a3cb43b688c612159bda0fcc3a7 *tests/testthat/testSimulateTTEModels.R
 f0e59718311613261193cd2594408f7f *tests/testthat/testSimulateTable.R
