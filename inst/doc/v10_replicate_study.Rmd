@@ -1,0 +1,62 @@
+---
+title: "Replicate your study"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Replicate your study}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, results='asis', echo=F, message=F, warning=F}
+if (campsis::onCran()) {
+  cat("This vignette was not built on CRAN. Please check out the online version [here](https://calvagone.github.io/campsis.doc/articles/v10_replicate_study.html).")
+  knitr::knit_exit()
+}
+```
+
+```{r, results='hide', echo=F, message=F, warning=F}
+library(campsis)
+```
+
+This vignette shows how a simulation can be replicated.
+
+### Simulate uncertainty on percentiles
+
+Assume the following model is used. This model is a 2-compartment model without absorption compartment which has been fitted on some data.
+
+```{r}
+model <- model_suite$testing$other$my_model1
+```
+
+It contains a variance-covariance matrix with the uncertainty on all the estimated parameters.
+
+```{r}
+model
+```
+
+We are interested to see the uncertainty on the simulated concentration percentiles over time.
+Let's mimic the protocol that was implemented in the study.
+
+```{r}
+ds <- Dataset(50) %>%
+  add(Infusion(time=(0:6)*24, amount=1000, compartment=1)) %>%
+  add(Observations(times=seq(0, 7*24)))
+```
+
+Let's now simulate this model with parameter uncertainty.  
+Argument `replicates` specifies how many times the simulation is replicated.  
+Argument `outfun` is a function that is going to be called after each simulation on the output data frame.
+
+```{r, message=F}
+results <- model %>% simulate(dataset=ds, replicates=10, outfun=~PI(.x, output="Y"), seed=1)
+results %>% head()
+```
+
+Function `vpcPlot` allows to quickly visualize such results.
+
+```{r replicate_your_study_varcov , fig.align='center', fig.height=4, fig.width=8}
+vpcPlot(results)
+```
+
