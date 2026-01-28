@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://calvagone.github.io/campsis.doc/schema/1.0/campsis_scenarios.schema.json",
+  "$comment": "Campsis Scenarios JSON Schema v1.0 © 2025 [Nicolas Luyckx / Calvagone]. Licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). You are free to share and adapt this schema with attribution.",
+  "title": "Campsis Scenarios JSON Schema",
+  "$ref": "#/$defs/scenarios",
+  "$defs": {
+    "scenarios": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/scenario"
+          }
+        ]
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "scenario"
+        },
+        "name": {
+          "type": "string"
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/replace_action"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "name",
+        "actions"
+      ],
+      "additionalProperties": false
+    },
+    "action": {
+      "title": "Base action",
+      "type": "object",
+      "properties": {
+      },
+      "required": [
+      ]
+    },
+    "replace_action": {
+      "title": "Replace action",
+      "allOf": [
+        {
+          "$ref": "#/$defs/action"
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "replace_action"
+            },
+            "object": {
+              "oneOf": [
+                {
+                  "$ref": "https://calvagone.github.io/campsis.doc/schema/1.0/campsismod.schema.json#/$defs/theta"
+                },
+                {
+                  "$ref": "https://calvagone.github.io/campsis.doc/schema/1.0/campsismod.schema.json#/$defs/omega"
+                },
+                {
+                  "$ref": "https://calvagone.github.io/campsis.doc/schema/1.0/campsismod.schema.json#/$defs/sigma"
+                }
+              ]
+            }
+          },
+          "required": [
+            "object"
+          ]
+        }
+      ]
+    }
+  }
+}

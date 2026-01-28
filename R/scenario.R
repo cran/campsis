@@ -14,15 +14,17 @@ checkScenario <- function(object) {
 #' Scenario class.
 #' 
 #' @slot name scenario name, single character string
-#' @slot model either a CAMPSIS model, a function or lambda-style formula
-#' @slot dataset either a CAMPSIS dataset, a function or lambda-style formula
+#' @slot model either a Campsis model, a function or lambda-style formula
+#' @slot dataset either a Campsis dataset, a function or lambda-style formula
+#' @slot actions list of actions to apply
 #' @export
 setClass(
   "scenario",
   representation(
     name = "character",
-    model = "ANY",
-    dataset = "ANY"
+    model = "ANY", # To deprecate
+    dataset = "ANY", # To deprecate
+    actions = "scenario_actions"
   ),
   contains="pmx_element",
   validity=checkScenario
@@ -32,8 +34,8 @@ setClass(
 #' Create an scenario.
 #' 
 #' @param name scenario name, single character string
-#' @param model either a CAMPSIS model, a function or lambda-style formula
-#' @param dataset either a CAMPSIS dataset, a function or lambda-style formula
+#' @param model either a Campsis model, a function or lambda-style formula
+#' @param dataset either a Campsis dataset, a function or lambda-style formula
 #' @return a new scenario
 #' @export
 Scenario <- function(name=NULL, model=NULL, dataset=NULL) {
@@ -72,11 +74,32 @@ expectAppropriateDatasetArg <- function(dataset) {
 }
 
 #_______________________________________________________________________________
+#----                              add                                      ----
+#_______________________________________________________________________________
+
+
+setMethod("add", signature = c("scenario", "scenario_action"), definition = function(object, x) {
+  object@actions <- object@actions %>% add(x)
+  return(object)
+})
+
+#_______________________________________________________________________________
 #----                           getName                                     ----
 #_______________________________________________________________________________
 
 setMethod("getName", signature = c("scenario"), definition = function(x) {
   return(paste0("SCENARIO (", x@name, ")"))
+})
+
+#_______________________________________________________________________________
+#----                           loadFromJSON                                ----
+#_______________________________________________________________________________
+
+setMethod("loadFromJSON", signature=c("scenario", "json_element"), definition=function(object, json) {
+  jsonScenario <- json@data
+  scenario <- Scenario(name=jsonScenario$name)
+  scenario@actions <- loadFromJSON(new("scenario_actions"), JSONElement(jsonScenario$actions)) 
+  return(scenario)
 })
 
 #_______________________________________________________________________________
@@ -103,13 +126,20 @@ applyScenario <- function(x, scenario) {
   } else {
     stop("x must be either a CAMPSIS model or dataset")
   }
-  
+
   if (is.function(x_)) {
-    return(x_(x))
+    retValue <- x_(x) 
   } else if (rlang::is_formula(x_)) {
     x_ <- rlang::as_function(x_)
-    return(x_(x))
+    retValue <- x_(x)
   } else {
-    return(x_)
+    retValue <- x_
   }
+  
+  for (action in scenario@actions@list) {
+    retValue <- retValue %>%
+      applyAction(action=action)
+  }
+  
+  return(retValue)
 }

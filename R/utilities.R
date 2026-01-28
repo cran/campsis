@@ -88,3 +88,34 @@ onCI <- function() {
   # Copied from testthat:::on_ci() 
   return(envVarIsTrue("CI"))
 }
+
+#'
+#' Get the Campsis options (R options).
+#'
+#' @return global options for Campsis
+#' @export
+#' @keywords internal
+getCampsisOptions <- function() {
+  return(getOption("campsis.options"))
+}
+
+#'
+#' Get Campsis option logic.
+#'
+#' @param name option to search
+#' @param default default value if option not found
+#' @return option value
+#' @export
+getCampsisOption <- function(name, default) {
+  option <- getCampsisOptions()
+  if (is.null(option)) {
+    return(default)
+  } else {
+    value <- option[[name]]
+    if (is.null(value)) {
+      return(default)
+    } else {
+      return(value)
+    }
+  }
+}

@@ -117,7 +117,7 @@ setMethod("getName", signature = c("arm"), definition = function(x) {
 
 #' @rdname getTimes
 setMethod("getTimes", signature = c("arm"), definition = function(object) {
-  return(object@protocol@observations %>% getTimes())
+  return(getTimes(object@protocol@observations, doseTimes=getTimes(object@protocol@treatment)))
 })
 
 #_______________________________________________________________________________

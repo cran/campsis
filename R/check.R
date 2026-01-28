@@ -17,10 +17,15 @@ checkLength <- function(object, slot, expected=1) {
 }
 
 expectOneOrMore <- function(object, slot) {
-  lengthSlot <- getSlotLength(object, slot)
+  x <- getObjectSlot(object, slot)
+  return(expectOneOrMore_(x, slot))
+}
+
+expectOneOrMore_ <- function(x, slot) {
   error <- character()
-  if (lengthSlot==0) {
-    error <- paste0(slot, " is length ", lengthSlot, ". Should be at least 1.")
+  length <- length(x)
+  if (length==0) {
+    error <- paste0(slot, " is length ", length, ". Should be at least 1.")
   }
   return(error)
 }
@@ -94,9 +99,12 @@ expectSingleIntegerValue <- function(value, name) {
 }
 
 expectPositiveValues <- function(object, slot) {
-  error <- character(0)
   x <- getObjectSlot(object, slot)
-  
+  return(expectPositiveValues_(x, slot))
+}
+
+expectPositiveValues_ <- function(x, slot) {
+  error <- character(0)
   if (is.na(x) %>% any()) {
     error <- paste0("Some values in slot '", slot ,"' are NA")
   } else if (!all(x >= 0)) {

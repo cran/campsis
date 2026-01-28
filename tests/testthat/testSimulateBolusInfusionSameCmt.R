@@ -24,5 +24,7 @@ test_that(getTestName("Bolus and infusion in CMT 1"), {
     expect_equal(nrow(results), 49),
     outputRegressionTest(results, output="CP", filename=regFilename)
   )
-  campsisTest(simulation, test, env=environment())
+  # SuppressWarnings is called to suppress the following warning in mrgsolve (>=1.7.1):
+  # [mrgsolve] RATE is not -2 on a dosing record with modeled infusion duration; either set the modeled duration to zero or use the `@!check_modeled_infusions` block option for $MAIN/$PK to slience this warning.
+  suppressWarnings(campsisTest(simulation, test, env=environment()))
 })

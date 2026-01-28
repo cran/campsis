@@ -81,7 +81,7 @@ test_that(getTestName("Study replication also works with scenarios"), {
     expect_true(all(c("replicate", "TIME", "metric", "value", "SCENARIO") %in% colnames(results))),
     expect_true(all(results$SCENARIO %>% unique()==c("Base model", "Increased KA"))),
     if (!skipVdiffrTests()) {
-      vdiffr::expect_doppelganger("VPC / specified outfun", vpcPlot(results, scenarios="SCENARIO") + facet_wrap(~SCENARIO))
+      vdiffr::expect_doppelganger(sprintf("VPC / specified outfun / %s (A)", destEngine), vpcPlot(results, scenarios="SCENARIO") + facet_wrap(~SCENARIO))
     }
   )
   campsisTest(simulation, test, env=environment())
@@ -94,7 +94,7 @@ test_that(getTestName("Study replication also works with scenarios"), {
     expect_true(all(c("replicate", "TIME", "metric", "value", "SCENARIO") %in% colnames(results))),
     expect_true(all(results$SCENARIO %>% unique()==c("Base model", "Increased KA"))),
     if (!skipVdiffrTests()) {
-      vdiffr::expect_doppelganger("VPC / specified outfun", vpcPlot(results, scenarios="SCENARIO") + facet_wrap(~SCENARIO))
+      vdiffr::expect_doppelganger(sprintf("VPC / specified outfun / %s (B)", destEngine), vpcPlot(results, scenarios="SCENARIO") + facet_wrap(~SCENARIO))
     }
   )
   campsisTest(simulation, test, env=environment())
@@ -109,7 +109,7 @@ test_that(getTestName("Study replication also works with scenarios"), {
     expect_true(all(c("replicate", "TIME", "metric", "value", "SCENARIO") %in% colnames(results))),
     expect_true(all(results$SCENARIO %>% unique()==c("Base model", "Increased KA"))),
     if (!skipVdiffrTests()) {
-      vdiffr::expect_doppelganger("VPC / specified outfun", vpcPlot(results, scenarios="SCENARIO") + facet_wrap(~SCENARIO))
+      vdiffr::expect_doppelganger(sprintf("VPC / specified outfun / %s (C)", destEngine), vpcPlot(results, scenarios="SCENARIO") + facet_wrap(~SCENARIO))
     }
   )
   campsisTest(simulation, test, env=environment())

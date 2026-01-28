@@ -1,0 +1,61 @@
+[
+  {
+    "type": "arm",
+    "list": [
+      {
+        "type": "arm_attributes",
+        "subjects": 100,
+        "label": "Arm 1"
+      },
+      {
+        "type": "bolus",
+        "time": 0.0,
+        "amount": 50.0,
+        "compartment": [
+          "ABS"
+        ],
+        "ii": 24.0,
+        "addl": 6
+      },
+      {
+        "type": "infusion",
+        "time": 0.0,
+        "amount": 50.0,
+        "compartment": [
+          "CENTRAL"
+        ],
+        "ii": 24.0,
+        "addl": 6,
+        "duration": 2.0
+      },
+      {
+        "type": "observations",
+        "times": [0,24,48,72,96,120,144,168]
+      }
+    ]
+  },
+  {
+    "type": "arm",
+    "list": [
+      {
+        "type": "arm_attributes",
+        "subjects": 100,
+        "label": "Arm 2"
+      },
+      {
+        "type": "bolus",
+        "time": 0.0,
+        "amount": 100.0,
+        "compartment": [
+          "ABS"
+        ],
+        "ii": 24.0,
+        "addl": 6
+      },
+      {
+        "type": "observations",
+        "times": [0,24,48,72,96,120,144,168]
+      }
+    ]
+  }
+]

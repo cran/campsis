@@ -1056,6 +1056,6 @@
 <circle cx='639.98' cy='300.25' r='1.95' style='stroke-width: 0.71; stroke: #00BFC4; fill: #00BFC4;' />
 <text x='654.10' y='286.00' style='font-size: 8.80px; font-family: sans;' textLength='60.42px' lengthAdjust='spacingAndGlyphs'>Correlation=0.5</text>
 <text x='654.10' y='303.28' style='font-size: 8.80px; font-family: sans;' textLength='60.42px' lengthAdjust='spacingAndGlyphs'>Correlation=0.9</text>
-<text x='27.90' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='185.63px' lengthAdjust='spacingAndGlyphs'>scatterPlot / colour: SCENARIO</text>
+<text x='27.90' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='237.00px' lengthAdjust='spacingAndGlyphs'>scatterPlot / colour: SCENARIO / rxode2</text>
 </g>
 </svg>

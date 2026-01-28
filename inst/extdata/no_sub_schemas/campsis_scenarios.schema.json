@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://calvagone.github.io/campsis.doc/schema/1.0/campsis_scenarios.schema.json",
+  "$comment": "Campsis Scenarios JSON Schema v1.0 © 2025 [Nicolas Luyckx / Calvagone]. Licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). You are free to share and adapt this schema with attribution.",
+  "title": "Campsis Scenarios JSON Schema",
+  "$ref": "#/$defs/scenarios",
+  "$defs": {
+    "scenarios": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/scenario"
+          }
+        ]
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "scenario"
+        },
+        "name": {
+          "type": "string"
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/replace_action"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "name",
+        "actions"
+      ],
+      "additionalProperties": false
+    },
+    "action": {
+      "title": "Base action",
+      "type": "object",
+      "properties": {
+      },
+      "required": [
+      ]
+    },
+    "replace_action": {
+      "title": "Replace action",
+      "allOf": [
+        {
+          "$ref": "#/$defs/action"
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "replace_action"
+            },
+            "object": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/theta"
+                },
+                {
+                  "$ref": "#/$defs/omega"
+                },
+                {
+                  "$ref": "#/$defs/sigma"
+                }
+              ]
+            }
+          },
+          "required": [
+            "object"
+          ]
+        }
+      ]
+    },
+	"parameter": {
+      "title": "Base Parameter",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the parameter"
+        },
+        "value": {
+          "type": "number",
+          "description": "Numeric value of the parameter"
+        },
+        "min": {
+          "type": "number",
+          "description": "Minimum value of the parameter"
+        },
+        "max": {
+          "type": "number",
+          "description": "Maximum value of the parameter"
+        },
+        "label": {
+          "type": "string",
+          "description": "Short description of the parameter"
+        },
+        "comment": {
+          "type": "string",
+          "description": "Any additional comment"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ]
+    },
+    "theta": {
+      "title": "Theta Parameter",
+      "allOf": [
+        {
+          "$ref": "#/$defs/parameter"
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "theta"
+            },
+            "unit": {
+              "type": "string",
+              "description": "Unit of the parameter"
+            }
+          }
+        }
+      ]
+    },
+    "double_array_parameter": {
+      "title": "Double Array Parameter",
+      "allOf": [
+        {
+          "$ref": "#/$defs/parameter"
+        },
+        {
+          "properties": {
+            "var_type": {
+              "enum": [
+                "cv%",
+                "cv",
+                "var",
+                "sd",
+                "covar",
+                "cor"
+              ]
+            },
+            "name2": {
+              "type": "string",
+              "description": "Reference to the second parameter in case this parameter describes a correlation or a covariance."
+            }
+          },
+          "required": [
+            "var_type"
+          ]
+        }
+      ]
+    },
+    "omega": {
+      "title": "Omega Parameter",
+      "allOf": [
+        {
+          "$ref": "#/$defs/double_array_parameter"
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "omega"
+            }
+          },
+          "required": []
+        }
+      ]
+    },
+    "sigma": {
+      "title": "Sigma Parameter",
+      "allOf": [
+        {
+          "$ref": "#/$defs/double_array_parameter"
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "sigma"
+            }
+          },
+          "required": []
+        }
+      ]
+    }
+  }
+}

@@ -251,6 +251,54 @@ processRefArg <- function(ref) {
 }
 
 #_______________________________________________________________________________
+#----                           loadFromJSON                                ----
+#_______________________________________________________________________________
+
+bolusInfFromJSON <- function(object, json) {
+  # Time unit pre-processing
+  if (!is.null(json@data$time) && !is.null(json@data$time_unit)) {
+    json@data$time <- convertTime(json@data$time, from=json@data$time_unit, to="hour")
+    json@data$time_unit <- NULL
+  }
+  if (!is.null(json@data$ii) && !is.null(json@data$ii_unit)) {
+    json@data$ii <- convertTime(json@data$ii, from=json@data$ii_unit, to="hour")
+    json@data$ii_unit <- NULL
+  }
+  if (!is.null(json@data$rep) && !is.null(json@data$rep$duration_unit)) {
+    json@data$rep$duration <- convertTime(json@data$rep$duration, from=json@data$rep$duration_unit, to="hour")
+    json@data$rep$duration_unit <- NULL
+  }
+  object@rep = new("undefined_schedule") # Default, no cycles
+  object <- campsismod::mapJSONPropertiesToS4Slots(object, json)
+  object@f <- toExplicitDistributionList(NULL, cmtNo=length(object@compartment))
+  object@lag <- toExplicitDistributionList(NULL, cmtNo=length(object@compartment))
+  object@ref <- processRefArg(NULL)
+  return(object)
+}
+
+setMethod("loadFromJSON", signature=c("bolus_wrapper", "json_element"), definition=function(object, json) {
+  return(bolusInfFromJSON(object=object, json=json))
+})
+
+setMethod("loadFromJSON", signature=c("infusion_wrapper", "json_element"), definition=function(object, json) {
+  # Duration unit pre-processing
+  if (!is.null(json@data$duration) && !is.null(json@data$duration_unit)) {
+    json@data$duration <- convertTime(json@data$duration, from=json@data$duration_unit, to="hour")
+    json@data$duration_unit <- NULL
+  }
+  # Process duration manually
+  duration <- NULL
+  if (!is.null(json@data$duration)) {
+    duration <- json@data$duration
+    json@data$duration <- NULL
+  }
+  object <- bolusInfFromJSON(object=object, json=json)
+  object@duration <- toExplicitDistributionList(duration, cmtNo=length(object@compartment))
+  object@rate <- toExplicitDistributionList(NULL, cmtNo=length(object@compartment))
+  return(object)
+})
+
+#_______________________________________________________________________________
 #----                             sample                                    ----
 #_______________________________________________________________________________
 

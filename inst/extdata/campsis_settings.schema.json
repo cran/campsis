@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://calvagone.github.io/campsis.doc/schema/1.0/campsis_settings.schema.json",
+  "$comment": "Campsis Settings JSON Schema v1.0 © 2025 [Nicolas Luyckx / Calvagone]. Licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). You are free to share and adapt this schema with attribution.",
+  "title": "Campsis Settings JSON Schema",
+  "$ref": "#/$defs/settings",
+  "$defs": {
+    "settings": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/default_settings"
+          }
+        ]
+      }
+    },
+    "default_settings": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "default_settings"
+        },
+        "engine": {
+          "enum": [
+            "mrgsolve",
+            "rxode2"
+          ]
+        },
+        "seed": {
+          "type": "integer"
+        },
+        "outvars": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "disabled_variabilities": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "IIV",
+              "RUV"
+            ]
+          }
+        }
+      },
+      "required": [
+        "engine",
+        "seed"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

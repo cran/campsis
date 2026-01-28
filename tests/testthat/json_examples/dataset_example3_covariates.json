@@ -1,0 +1,85 @@
+[
+  {
+    "type": "arm",
+    "list": [
+      {
+        "type": "arm_attributes",
+        "subjects": 100,
+        "label": "My dataset"
+      },
+      {
+        "type": "observations",
+        "times": {
+          "type": "time_sequence",
+          "start": 0.0,
+          "end": 24.0,
+          "by": 1.0
+        }
+      },
+      {
+        "type": "covariate",
+        "name": "BW1",
+        "distribution": {
+          "type": "constant_distribution",
+          "value": 70.5
+        }
+      },
+      {
+        "type": "covariate",
+        "name": "BW2",
+        "distribution": {
+          "type": "fixed_distribution",
+          "values": [70.5, 80.5, 90.5]
+        }
+      },
+      {
+        "type": "covariate",
+        "name": "BW3",
+        "distribution": {
+          "type": "normal_distribution",
+          "mean": 70.5,
+          "sd": 10.5
+        }
+      },
+      {
+        "type": "covariate",
+        "name": "BW4",
+        "distribution": {
+          "type": "uniform_distribution",
+          "min": 50.0,
+          "max": 100.0
+        }
+      },
+      {
+        "type": "covariate",
+        "name": "BW5",
+        "distribution": {
+          "type": "lognormal_distribution",
+          "meanlog": 4.5,
+          "sdlog": 2.3
+        }
+      },
+      {
+        "type": "covariate",
+        "name": "SEX",
+        "distribution": {
+          "type": "discrete_distribution",
+          "items": [
+            {
+              "type": "discrete_distribution_item",
+              "value": 0,
+              "probability": 0.6,
+              "label": "F"
+            },
+            {
+              "type": "discrete_distribution_item",
+              "value": 1,
+              "probability": 0.4,
+              "label": "M"
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

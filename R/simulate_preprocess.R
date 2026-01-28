@@ -155,11 +155,6 @@ preprocessReplicates <- function(replicates, model) {
 #' @keywords internal
 #' 
 preprocessSettings <- function(settings, dest) {
-  # Use default settings if not specified
-  if (is.null(settings)) {
-    settings <- Settings()
-  }
-  
   # Check if NOCB is specified
   enable <- settings@nocb@enable
   if (is.na(enable)) {

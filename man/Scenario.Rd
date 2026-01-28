@@ -9,9 +9,9 @@ Scenario(name = NULL, model = NULL, dataset = NULL)
 \arguments{
 \item{name}{scenario name, single character string}
 
-\item{model}{either a CAMPSIS model, a function or lambda-style formula}
+\item{model}{either a Campsis model, a function or lambda-style formula}
 
-\item{dataset}{either a CAMPSIS dataset, a function or lambda-style formula}
+\item{dataset}{either a Campsis dataset, a function or lambda-style formula}
 }
 \value{
 a new scenario

@@ -34,6 +34,15 @@ setMethod("add", signature=c("protocol", "observations"), definition=function(ob
 setMethod("show", signature=c("protocol"), definition=function(object) {
   cat("Protocol:")
   cat("\n")
+  
+  doseTimes <- getTimes(object@treatment)
+  object@observations@list <- object@observations@list %>%
+    purrr::map(.f=function(x) {
+      if (is(x@rep, "dosing_schedule")) {
+        x@rep <- RepeatAtSchedule(doseTimes)
+      }
+      return(x)
+    })
   show(object@treatment)
   show(object@observations)
 })

@@ -1,0 +1,80 @@
+[
+  {
+    "type": "arm",
+    "list": [
+      {
+        "type": "arm_attributes",
+        "subjects": 100,
+        "label": "Arm 1"
+      },
+      {
+        "type": "bolus",
+        "time": 0.0,
+        "time_unit": "day",
+        "amount": 50.0,
+        "compartment": [
+          "ABS"
+        ],
+        "ii": 1.0,
+        "ii_unit": "day",
+        "addl": 6
+      },
+      {
+        "type": "infusion",
+        "time": 0.0,
+        "time_unit": "day",
+        "amount": 50.0,
+        "compartment": [
+          "CENTRAL"
+        ],
+        "ii": 1.0,
+        "ii_unit": "day",
+        "addl": 6,
+        "duration": 0.0833333333333,
+        "duration_unit": "day"
+      },
+      {
+        "type": "observations",
+        "times": {
+          "type": "time_sequence",
+          "start": 0,
+          "end": 7,
+          "by": 0.041666666666
+        },
+        "unit": "day"
+      }
+    ]
+  },
+  {
+    "type": "arm",
+    "list": [
+      {
+        "type": "arm_attributes",
+        "subjects": 100,
+        "label": "Arm 2"
+      },
+      {
+        "type": "bolus",
+        "time": 0.0,
+        "time_unit": "day",
+        "amount": 100.0,
+        "compartment": [
+          "ABS"
+        ],
+        "ii": 1.0,
+        "ii_unit": "day",
+        "addl": 6
+      },
+      {
+        "type": "observations",
+        "times": {
+          "type": "time_sequence",
+          "start": 0,
+          "end": 7,
+          "by": 0.041666666666
+        },
+        "unit": "day"
+      }
+    ]
+  }
+]

@@ -122,6 +122,24 @@ setMethod("getNames", signature=c("bootstrap"), definition=function(object) {
 })
 
 #_______________________________________________________________________________
+#----                           loadFromJSON                                ----
+#_______________________________________________________________________________
+
+setMethod("loadFromJSON", signature=c("bootstrap", "json_element"), definition=function(object, json) {
+  data <- json@data
+  dataBs <- data$data %>%
+    purrr::map_df(~.x) %>%
+    dplyr::select(-dplyr::all_of("type"))
+  if (!"BS_ID" %in% colnames(dataBs)) {
+    dataBs <- dataBs %>%
+      dplyr::mutate(BS_ID=seq_len(nrow(dataBs))) %>%
+      dplyr::relocate(dplyr::any_of("BS_ID"))
+  }
+  bootstrap <- Bootstrap(data=dataBs, replacement=data$replacement, random=data$random, export_id=TRUE)
+  return(bootstrap)
+})
+
+#_______________________________________________________________________________
 #----                             sample                                    ----
 #_______________________________________________________________________________
 

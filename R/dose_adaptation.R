@@ -43,6 +43,15 @@ DoseAdaptation <- function(formula, compartments=NULL) {
 }
 
 #_______________________________________________________________________________
+#----                           loadFromJSON                                ----
+#_______________________________________________________________________________
+
+setMethod("loadFromJSON", signature=c("dose_adaptation", "json_element"), definition=function(object, json) {
+  object <- campsismod::mapJSONPropertiesToS4Slots(object, json)
+  return(object)
+})
+
+#_______________________________________________________________________________
 #----                                  show                                 ----
 #_______________________________________________________________________________
 

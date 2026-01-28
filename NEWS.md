@@ -1,3 +1,14 @@
+# campsis 1.8.1
+
+* Fix warnings from package 'future' #188
+* Update pkgdown website #191
+
+# campsis 1.8.0
+
+* JSON-based interface to import Campsis datasets #184
+* Test failure under mrgsolve 1.7.0 #186
+* Update vdiffr tests #187
+
 # campsis 1.7.0
 
 * Bolus/Infusion: accept a vector of compartment names (1 or several) #176

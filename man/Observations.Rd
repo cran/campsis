@@ -5,12 +5,14 @@
 \title{Create an observations list. Please note that the provided 'times' will 
 automatically be sorted. Duplicated times will be removed.}
 \usage{
-Observations(times, compartment = NA)
+Observations(times, compartment = NA, rep = NULL)
 }
 \arguments{
 \item{times}{observation times, numeric vector}
 
 \item{compartment}{compartment index (integer) or name (character)}
+
+\item{rep}{repetition schedule}
 }
 \value{
 an observations list

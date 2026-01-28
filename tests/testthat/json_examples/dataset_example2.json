@@ -1,0 +1,40 @@
+[
+  {
+    "type": "arm",
+    "list": [
+      {
+        "type": "arm_attributes",
+        "subjects": 100,
+        "label": "My dataset"
+      },
+      {
+        "type": "bolus",
+        "time": 0.0,
+        "amount": 100.0,
+        "compartment": [
+          "ABS"
+        ],
+        "ii": 24.0,
+        "addl": 6
+      },
+      {
+        "type": "observations",
+        "times": {
+          "type": "time_sequence",
+          "start": 0,
+          "end": 24,
+          "by": 1
+        },
+        "rep" : {
+          "type": "dosing_schedule"
+        }
+      }
+    ]
+  },
+  {
+    "type": "dataset_config",
+    "export_tsld": true,
+    "export_tdos": true,
+    "time_unit_export": "day"
+  }
+]

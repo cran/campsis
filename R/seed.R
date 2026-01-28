@@ -10,12 +10,12 @@ getRandomSeedValue <- function() {
 
 #' Get seed value.
 #' 
-#' @param seed user-input seed, NULL it not specified
+#' @param seed user-input seed. If NULL or NA, seed number will be random.
 #' @return a seed value, integer
 #' @keywords internal
 #' 
 getSeed <- function(seed=NULL) {
-  if (is.null(seed)) {
+  if (is.null(seed) || is.na(seed)) {
     retValue <- getRandomSeedValue()
   } else {
     assertthat::assert_that(is.numeric(seed) && seed%%1==0, msg="seed is not integer")

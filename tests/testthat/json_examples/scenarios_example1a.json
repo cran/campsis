@@ -1,0 +1,23 @@
+[
+  {
+    "type": "scenario",
+    "name": "Base scenario",
+    "actions": []
+  },
+  {
+    "type": "scenario",
+    "name": "Slow KA",
+    "actions": [
+      {
+        "type": "replace_action",
+        "object": {
+          "name": "KA",
+          "value": 0.3,
+          "label": "Absorption rate",
+          "type": "theta",
+          "unit": "1/h"
+        }
+      }
+    ]
+  }
+]

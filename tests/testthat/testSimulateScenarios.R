@@ -55,7 +55,7 @@ test_that(getTestName("Simulate scenarios - make few changes on model"), {
   scenarios <- Scenarios() %>% 
     add(Scenario("THETA_KA=1", model=~.x %>% replace(Theta(name="KA", value=1)))) %>%
     add(Scenario("THETA_KA=3", model=~.x %>% replace(Theta(name="KA", value=3)))) %>%
-    add(Scenario("THETA_KA=6", model=~.x %>% replace(Theta(name="KA", value=6))))
+    add(Scenario("THETA_KA=6") %>% add(ReplaceAction(Theta(name="KA", value=6))))
   
   # Running scenarios sequentially with only 1 CPU
   setupPlanSequential()
@@ -83,16 +83,16 @@ test_that(getTestName("Simulate scenarios - make few changes on model"), {
 })
 
 test_that(getTestName("Export 'SCENARIO' column as soon as 1 scenario is specified."), {
-  
+
   model <- model_suite$testing$nonmem$advan4_trans4
 
   dataset <- Dataset(3) %>%
     add(Bolus(time=0, amount=1000)) %>%
-    add(Observations(times=c(0,1,2,3,4,5,6,12,24))) 
-  
+    add(Observations(times=c(0,1,2,3,4,5,6,12,24)))
+
   # Scenarios are NULL
   scenarios <- NULL
-  
+
   simulation <- expression(simulate(model=model, dataset=dataset, dest=destEngine, scenarios=scenarios, seed=seed))
   test <- expression(
     expect_equal(nrow(results), 3*9),
@@ -102,18 +102,18 @@ test_that(getTestName("Export 'SCENARIO' column as soon as 1 scenario is specifi
 
   # Scenarios are empty
   scenarios <- Scenarios()
-  
+
   simulation <- expression(simulate(model=model, dataset=dataset, dest=destEngine, scenarios=scenarios, seed=seed))
   test <- expression(
     expect_equal(nrow(results), 3*9),
     expect_false("SCENARIO" %in% colnames(results))
   )
   campsisTest(simulation, test, env=environment())
-  
+
   # 1 scenario is provided
   scenarios <- Scenarios() %>%
     add(Scenario(name="My scenario"))
-  
+
   simulation <- expression(simulate(model=model, dataset=dataset, dest=destEngine, scenarios=scenarios, seed=seed))
   test <- expression(
     expect_equal(nrow(results), 3*9),

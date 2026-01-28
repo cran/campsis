@@ -1,0 +1,9 @@
+[
+  {
+     "type": "default_settings",
+     "engine": "mrgsolve",
+     "seed": 1,
+     "disabled_variabilities": [],
+     "outvars": ["CONC", "CONC_ERR"]
+  }
+]

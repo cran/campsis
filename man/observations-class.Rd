@@ -10,10 +10,12 @@ Observations class.
 \section{Slots}{
 
 \describe{
-\item{\code{times}}{observation times, numeric vector}
+\item{\code{times}}{any object that implements}
 
 \item{\code{compartment}}{compartment index (integer) or name (character)}
 
 \item{\code{dv}}{observed values, numeric vector (FOR EXTERNAL USE)}
+
+\item{\code{rep}}{repetition schedule}
 }}
 

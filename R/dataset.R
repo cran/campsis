@@ -191,6 +191,20 @@ setMethod("length", signature=c("dataset"), definition=function(x) {
 })
 
 #_______________________________________________________________________________
+#----                           loadFromJSON                                ----
+#_______________________________________________________________________________
+
+setMethod("loadFromJSON", signature=c("dataset", "json_element"), definition=function(object, json) {
+  object <- jsonToCampsisDataset(object=object, json=json)
+  return(object)
+})
+
+setMethod("loadFromJSON", signature=c("dataset", "character"), definition=function(object, json) {
+  schema <- system.file("extdata", "campsis.schema.json", package="campsis")
+  return(loadFromJSON(object=object, json=openJSON(json=json, schema=schema)))
+})
+
+#_______________________________________________________________________________
 #----                             replace                                   ----
 #_______________________________________________________________________________
 
@@ -220,6 +234,19 @@ setMethod("setSubjects", signature = c("dataset", "integer"), definition = funct
     object <- object %>% replace(arm)
   }
   methods::validObject(object)
+  return(object)
+})
+
+#_______________________________________________________________________________
+#----                             setLabel                                  ----
+#_______________________________________________________________________________
+
+#' @rdname setLabel
+#' @importFrom methods validObject
+setMethod("setLabel", signature = c("dataset", "character"), definition = function(object, x) {
+  object <- object %>% createDefaultArmIfNotExists()
+  object@arms@list[[1]] <- object@arms@list[[1]] %>%
+    setLabel(x)
   return(object)
 })
 
@@ -343,7 +370,10 @@ applyCompartmentCharacteristics <- function(table, properties) {
 #' @importFrom dplyr all_of
 setMethod("export", signature=c("dataset", "character"), definition=function(object, dest, seed=NULL, model=NULL, settings=NULL, event_related_column=FALSE) {
   destinationEngine <- getSimulationEngineType(dest)
-  settings <- preprocessSettings(settings, dest) # In case of NULL settings
+  if (is.null(settings)) {
+    settings <- Settings()
+  }
+  settings <- preprocessSettings(settings, dest)
   table <- object %>% export(dest=destinationEngine, seed=seed, model=model, settings=settings)
   if (!event_related_column) {
     table <- table %>% dplyr::select(-dplyr::all_of("EVENT_RELATED"))
@@ -431,6 +461,7 @@ exportDelegate <- function(object, dest, model, arm_offset=NULL, offset_within_a
     treatment <- protocol@treatment %>%
       unwrapTreatment() %>%
       assignDoseNumber()
+    doseTimes <- getTimes(treatment, unwrap=FALSE)
     
     if (treatment %>% length() > 0) {
       maxDoseNumber <- (treatment@list[[treatment %>% length()]])@dose_number
@@ -455,7 +486,7 @@ exportDelegate <- function(object, dest, model, arm_offset=NULL, offset_within_a
     # Create the base table with all treatment entries and observations
     needsDV <- observations@list %>% purrr::map_lgl(~.x@dv %>% length() > 0) %>% any()
     table <- c(treatment@list, observations@list) %>%
-      purrr::map_df(.f=~sample(.x, n=subjects, ids=ids, config=config, armID=armID, needsDV=needsDV))
+      purrr::map_df(.f=~sample(.x, n=subjects, ids=ids, config=config, armID=armID, needsDV=needsDV, doseTimes=doseTimes))
     table <- table %>% dplyr::arrange(dplyr::across(c("ID","TIME","EVID")))
 
     # Sampling covariates
@@ -726,8 +757,8 @@ processAllTimeColumns <- function(table, config) {
 #' 
 #' @param dataset Campsis dataset to export
 #' @param hardware hardware configuration
-#' @return splitting configuration list (if 'parallel_dataset' is enabled) or
-#'  NA (if 'parallel_dataset' disabled or if the length of the dataset is less than the dataset export slice size)
+#' @return splitting configuration list (if 'dataset_parallel' is enabled) or
+#'  NA (if 'dataset_parallel' disabled or if the length of the dataset is less than the dataset export slice size)
 #' @export
 #'
 getSplittingConfiguration <- function(dataset, hardware) {
@@ -791,6 +822,8 @@ splitDataset <- function(dataset, config) {
   return(dataset)
 }
 
+#' @importFrom furrr future_map_dfr
+#' @importFrom purrr map_dfr
 setMethod("export", signature=c("dataset", "rxode_engine"), definition=function(object, dest, seed, model, settings) {
   
   # NOCB management
@@ -807,14 +840,13 @@ setMethod("export", signature=c("dataset", "rxode_engine"), definition=function(
   configList <- getSplittingConfiguration(dataset=object, hardware=settings@hardware)
   furrrSeed <- if (is.list(configList)) {TRUE} else {NULL}
   
-  retValue <- furrr::future_map_dfr(.x=configList, .f=function(config) {
-
+  exportFun <- function(config) {
     # Export table
     arm_offset <- if (is.list(config)) {config$arm_offset} else {NULL}
     offset_within_arm <- if (is.list(config)) {config$offset_within_arm} else {0}
     table <- exportDelegate(object=splitDataset(object, config), dest=dest, model=model,
                             arm_offset=arm_offset, offset_within_arm=offset_within_arm)
-
+    
     # TSLD/TDOS pre-processing
     table <- table %>% preprocessTSLDAndTDOSColumn(config=object@config)
     
@@ -835,14 +867,23 @@ setMethod("export", signature=c("dataset", "rxode_engine"), definition=function(
     table <- table %>% processAllTimeColumns(config=object@config)
     
     return(table %>% dplyr::ungroup())
-  }, .options=furrr::furrr_options(seed=furrrSeed, scheduling=getFurrrScheduling(settings@hardware@dataset_parallel)))
+  }
   
+  # Use 'future' only when required
+  mapFun <- if (settings@hardware@dataset_parallel) {
+    function(.x) {furrr::future_map_dfr(.x=.x, .f=exportFun, .options=furrr::furrr_options(seed=furrrSeed))}
+  } else {
+    function(.x) {purrr::map_dfr(.x=.x, .f=exportFun)}
+  }
+
   # Left-join IIV matrix
-  retValue <- leftJoinIIV(table=retValue, iiv=iiv)
+  retValue <- leftJoinIIV(table=configList %>% mapFun(), iiv=iiv)
   
   return(retValue)
 })
 
+#' @importFrom furrr future_map_dfr
+#' @importFrom purrr map_dfr
 setMethod("export", signature=c("dataset", "mrgsolve_engine"), definition=function(object, dest, seed, model, settings) {
   
   # NOCB management
@@ -858,9 +899,8 @@ setMethod("export", signature=c("dataset", "mrgsolve_engine"), definition=functi
   # Retrieve splitting configuration
   configList <- getSplittingConfiguration(dataset=object, hardware=settings@hardware)
   furrrSeed <- if (is.list(configList)) {TRUE} else {NULL}
-
-  retValue <- furrr::future_map_dfr(.x=configList, .f=function(config) {
-    
+  
+  exportFun <- function(config) {
     # Export table
     arm_offset <- if (is.list(config)) {config$arm_offset} else {NULL}
     offset_within_arm <- if (is.list(config)) {config$offset_within_arm} else {0}
@@ -887,10 +927,17 @@ setMethod("export", signature=c("dataset", "mrgsolve_engine"), definition=functi
     table <- table %>% processAllTimeColumns(config=object@config)
     
     return(table %>% dplyr::ungroup())
-  }, .options=furrr::furrr_options(seed=furrrSeed, scheduling=getFurrrScheduling(settings@hardware@dataset_parallel)))
+  }
   
+  # Use 'future' only when required
+  mapFun <- if (settings@hardware@dataset_parallel) {
+    function(.x) {furrr::future_map_dfr(.x=.x, .f=exportFun, .options=furrr::furrr_options(seed=furrrSeed))}
+  } else {
+    function(.x) {purrr::map_dfr(.x=.x, .f=exportFun)}
+  }
+
   # Left-join IIV matrix
-  retValue <- leftJoinIIV(table=retValue, iiv=iiv)
+  retValue <- leftJoinIIV(table=configList %>% mapFun(), iiv=iiv)
 
   return(retValue)
 })

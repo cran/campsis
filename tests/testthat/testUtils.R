@@ -147,28 +147,14 @@ getTestName <- function(name) {
   return(paste0(name, " (", paste0(testEngines, collapse="/"), ")"))
 }
 
-skipTests <- function(name, default) {
-  option <- getCampsisOption()
-  if (is.null(option)) {
-    return(default)
-  } else {
-    value <- option[[name]]
-    if (is.null(value)) {
-      return(default)
-    } else {
-      return(value)
-    }
-  }
-}
-
 skipLongTests <- function() {
   # On CRAN, default value is TRUE
   # FALSE otherwise
-  return(skipTests(name="SKIP_LONG_TESTS", default=onCran()))
+  return(getCampsisOption(name="SKIP_LONG_TESTS", default=onCran()))
 }
 
 skipVeryLongTests <- function() {
-  return(skipTests(name="SKIP_VERY_LONG_TESTS", default=TRUE))
+  return(getCampsisOption(name="SKIP_VERY_LONG_TESTS", default=TRUE))
 }
 
 isMacOs <- function() {
@@ -180,11 +166,8 @@ isMacOs <- function() {
 skipVdiffrTests <- function() {
   # On mac, default value is TRUE (problems in vdiffr tests, see CI)
   # FALSE otherwise
-  return(skipTests(name="SKIP_VDIFFR_TESTS", default=ifelse(isMacOs(), TRUE, FALSE)))
+  return(getCampsisOption(name="SKIP_VDIFFR_TESTS", default=ifelse(isMacOs(), TRUE, FALSE)))
 }
 
-getCampsisOption <- function() {
-  return(getOption("campsis.options"))
-}
 
 

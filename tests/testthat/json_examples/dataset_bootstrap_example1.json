@@ -1,0 +1,46 @@
+[
+  {
+    "type": "arm",
+    "list": [
+      {
+        "type": "arm_attributes",
+        "subjects": 100,
+        "label": "My dataset"
+      },
+      {
+        "type": "observations",
+        "times": {
+          "type": "time_sequence",
+          "start": 0.0,
+          "end": 24.0,
+          "by": 1.0
+        }
+      },
+      {
+        "type": "bootstrap",
+        "replacement": true,
+        "random": true,
+        "data": [
+          {
+            "type": "bootstrap_row",
+            "BS_ID": 1,
+            "BW": 70.0,
+            "AGE": 30.0
+          },
+          {
+            "type": "bootstrap_row",
+            "BS_ID": 2,
+            "BW": 75.0,
+            "AGE": 35.0
+          },
+          {
+            "type": "bootstrap_row",
+            "BS_ID": 3,
+            "BW": 80.0,
+            "AGE": 40.0
+          }
+        ]
+      }
+    ]
+  }
+]

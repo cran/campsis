@@ -10,6 +10,8 @@ Simulation settings class.
 \section{Slots}{
 
 \describe{
+\item{\code{default}}{default settings of the simulate method}
+
 \item{\code{hardware}}{hardware settings object}
 
 \item{\code{solver}}{solver settings object}

@@ -7,7 +7,7 @@
 getSeed(seed = NULL)
 }
 \arguments{
-\item{seed}{user-input seed, NULL it not specified}
+\item{seed}{user-input seed. If NULL or NA, seed number will be random.}
 }
 \value{
 a seed value, integer

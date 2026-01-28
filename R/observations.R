@@ -4,32 +4,37 @@
 #_______________________________________________________________________________
 
 checkObservations <- function(object) {
-  check1 <- expectOneOrMore(object, "times")
-  check2 <- expectPositiveValues(object, "times")
-  check3 <- expectOne(object, "compartment")
-  check4 <- character()
-  if (object@dv %>% length() > 0 && object@dv %>% length() != object@times %>% length()) {
-    check4 <- "Slots 'times' and dv' don't have the same length"
+  times <- getTimes(object)
+  check1 <- expectOne(object, "compartment")
+  check2 <- character()
+  if (object@dv %>% length() > 0 && object@dv %>% length() != length(times)) {
+    check2 <- "Slots 'times' and dv' don't have the same length"
   }
+  
+  check3 <- expectOneOrMore_(times, "times")
+  check4 <- expectPositiveValues_(times, "times")
+
   return(c(check1, check2, check3, check4))
 }
 
 #' 
 #' Observations class.
 #' 
-#' @slot times observation times, numeric vector
+#' @slot times any object that implements 
 #' @slot compartment compartment index (integer) or name (character)
 #' @slot dv observed values, numeric vector (FOR EXTERNAL USE)
+#' @slot rep repetition schedule
 #' @export
 setClass(
   "observations",
   representation(
-    times = "numeric",
+    times = "time_vector",
     compartment = "character",
+    rep = "repeated_schedule",
     dv="numeric"
   ),
   contains = "pmx_element",
-  prototype = prototype(compartment=as.character(NA), dv=numeric(0)),
+  prototype = prototype(compartment=as.character(NA), dv=numeric(0), rep=new("undefined_schedule")),
   validity = checkObservations
 )
 
@@ -39,14 +44,23 @@ setClass(
 #'
 #' @param times observation times, numeric vector
 #' @param compartment compartment index (integer) or name (character)
+#' @param rep repetition schedule
 #' @return an observations list
 #' @export
-Observations <- function(times, compartment=NA) {
-  return(new("observations", times=base::sort(unique(times)), compartment=as.character(compartment)))
+Observations <- function(times, compartment=NA, rep=NULL) {
+  if (is(times, "time_vector")) {
+    # Do nothing
+  } else {
+    times <- TimeVector(times)
+  }
+  if (is.null(rep)) {
+    rep <- new("undefined_schedule")
+  }
+  return(new("observations", times=times, compartment=as.character(compartment), rep=rep))
 }
 
 setMethod("getName", signature = c("observations"), definition = function(x) {
-  return(paste0("OBS [", "TIMES=c(", paste0(x@times, collapse=","), "), ", "CMT=", x@compartment, "]"))
+  return(paste0("OBS [", "TIMES=c(", paste0(getTimes(x), collapse=","), "), ", "CMT=", x@compartment, "]"))
 })
 
 #_______________________________________________________________________________
@@ -69,8 +83,56 @@ setClass(
 #' @return observations
 #' @keywords internal
 EventRelatedObservations <- function(times, compartment=NA) {
-  return(new("event_related_observations", times=base::sort(unique(times)), compartment=as.character(compartment)))
+  return(new("event_related_observations", times=TimeVector(times), compartment=as.character(compartment)))
 }
+
+#_______________________________________________________________________________
+#----                             getTimes                                  ----
+#_______________________________________________________________________________
+
+#' @param doseTimes times of the doses, only needed if a [DosingSchedule()] is referred to
+#' @rdname getTimes
+setMethod("getTimes", signature = c("observations"), definition = function(object, doseTimes=NULL) {
+  times <- as.numeric(object@times)
+  rep <- object@rep
+  if (is(rep, "dosing_schedule")) {
+    rep <- RepeatAtSchedule(doseTimes)
+  }
+  times_ <- times %>%
+    repeatSchedule(rep)
+  
+  return(base::sort(unique(times_)))
+})
+
+#_______________________________________________________________________________
+#----                           loadFromJSON                                ----
+#_______________________________________________________________________________
+
+setMethod("loadFromJSON", signature=c("observations", "json_element"), definition=function(object, json) {
+  if (is.numeric(unlist(json@data$times))) {
+    object@times <- TimeVector(unlist(json@data$times))
+    json@data$times <- NULL
+  }
+  # Retrieving time unit in JSON
+  unit <- "hour" # Default
+  if (!is.null(json@data$unit)) {
+    unit <- json@data$unit
+    json@data$unit <- NULL
+  }
+  object <- campsismod::mapJSONPropertiesToS4Slots(object, json)
+  
+  # Handling time unit
+  if (is(object@times, "time_sequence")) {
+    object@times@start <- convertTime(object@times@start, from=unit, to="hour")
+    object@times@end <- convertTime(object@times@end, from=unit, to="hour")
+    object@times@by <- convertTime(object@times@by, from=unit, to="hour")
+  } else if (is(object@times, "time_vector")) {
+      object@times@.Data <- convertTime(object@times@.Data, from=unit, to="hour")
+  } else {
+    stop("Either a 'time_vector' or a 'time_sequence'")
+  }
+  return(object)
+})
 
 #_______________________________________________________________________________
 #----                             sample                                    ----
@@ -83,6 +145,7 @@ setMethod("sample", signature = c("observations", "integer"), definition = funct
   ids <- processExtraArg(args, name="ids", mandatory=TRUE, default=seq_len(n))
   armID <- processExtraArg(args, name="armID", mandatory=TRUE, default=as.integer(0))
   needsDV <- processExtraArg(args, name="needsDV", mandatory=TRUE, default=FALSE)
+  doseTimes <- processExtraArg(args, name="doseTimes", mandatory=TRUE, default=NULL)
   
   if (is.na(object@compartment)) {
     obsCmt <- as.character(config@def_obs_cmt)
@@ -90,8 +153,10 @@ setMethod("sample", signature = c("observations", "integer"), definition = funct
     obsCmt <- object@compartment
   }
   isEventRelated <- is(object, "event_related_observations")
+  times <- getTimes(object, doseTimes=doseTimes)
+  
   retValue <- tibble::tibble(
-    ID=rep(ids, each=length(object@times)), ARM=as.integer(armID), TIME=rep(object@times, n),
+    ID=rep(ids, each=length(times)), ARM=as.integer(armID), TIME=rep(times, n),
     EVID=as.integer(0), MDV=as.integer(0), AMT=as.numeric(NA), CMT=obsCmt, RATE=as.numeric(0), DOSENO=as.integer(NA),
     INFUSION_TYPE=as.integer(NA), EVENT_RELATED=as.integer(isEventRelated)
   )
@@ -99,7 +164,7 @@ setMethod("sample", signature = c("observations", "integer"), definition = funct
     if (object@dv %>% length() > 0) {
       dv <- object@dv
     } else {
-      dv <- rep(as.numeric(0), object@times %>% length())
+      dv <- rep(as.numeric(0),  length(times))
     }
     retValue <- retValue %>% tibble::add_column(DV=rep(dv, n), .before="INFUSION_TYPE")
   }

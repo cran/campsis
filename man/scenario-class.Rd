@@ -12,8 +12,10 @@ Scenario class.
 \describe{
 \item{\code{name}}{scenario name, single character string}
 
-\item{\code{model}}{either a CAMPSIS model, a function or lambda-style formula}
+\item{\code{model}}{either a Campsis model, a function or lambda-style formula}
 
-\item{\code{dataset}}{either a CAMPSIS dataset, a function or lambda-style formula}
+\item{\code{dataset}}{either a Campsis dataset, a function or lambda-style formula}
+
+\item{\code{actions}}{list of actions to apply}
 }}
 

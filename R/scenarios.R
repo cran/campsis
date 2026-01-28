@@ -36,3 +36,22 @@ setMethod("add", signature = c("scenarios", "scenario"), definition = function(o
   } 
   return(methods::callNextMethod(object, x))
 })
+
+#_______________________________________________________________________________
+#----                           loadFromJSON                                ----
+#_______________________________________________________________________________
+
+setMethod("loadFromJSON", signature=c("scenarios", "json_element"), definition=function(object, json) {
+  for (jsonScenario in json@data) {
+    scenario <- loadFromJSON(object=Scenario(), json=JSONElement(jsonScenario))
+    object <- object %>%
+      add(scenario)
+  }
+  return(object)
+})
+
+setMethod("loadFromJSON", signature=c("scenarios", "character"), definition=function(object, json) {
+  schema <- system.file("extdata", "no_sub_schemas", "campsis_scenarios.schema.json", package="campsis")
+  return(loadFromJSON(object=object, json=openJSON(json=json, schema=schema)))
+})
+

@@ -54,3 +54,11 @@ DatasetConfig <- function(defDepotCmt=1, defObsCmt=1, exportTSLD=FALSE, exportTD
              time_unit_dataset=timeUnitDataset, time_unit_export=timeUnitExport))
 }
 
+#_______________________________________________________________________________
+#----                           loadFromJSON                                ----
+#_______________________________________________________________________________
+
+setMethod("loadFromJSON", signature=c("dataset_config", "json_element"), definition=function(object, json) {
+  object <- campsismod::mapJSONPropertiesToS4Slots(object, json)
+  return(object)
+})
