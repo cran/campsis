@@ -1,7 +1,7 @@
 Type: Package
 Package: campsis
 Title: Generic PK/PD Simulation Platform Campsis
-Version: 1.8.1
+Version: 1.8.2
 Authors@R: 
     person("Nicolas", "Luyckx", , "nicolas.luyckx@calvagone.com", role = c("aut", "cre"))
 Description: A generic, easy-to-use and intuitive
@@ -57,8 +57,8 @@ Collate: 'global.R' 'utilities.R' 'time_utilities.R' 'check.R'
         'json_interface.R' 'simulate_preprocess.R' 'simulate.R'
         'results_processing.R' 'default_plot.R'
 NeedsCompilation: no
-Packaged: 2026-01-28 09:51:52 UTC; nicolas.luyckx
+Packaged: 2026-03-19 13:54:42 UTC; nicolas.luyckx
 Author: Nicolas Luyckx [aut, cre]
 Maintainer: Nicolas Luyckx <nicolas.luyckx@calvagone.com>
 Repository: CRAN
-Date/Publication: 2026-01-28 10:30:02 UTC
+Date/Publication: 2026-03-19 14:20:02 UTC
