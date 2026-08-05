@@ -10,14 +10,14 @@ dataset <- Dataset(10) %>%
   add(Observations(times=seq(0,72, by=1)))
 
 ## ----message=F----------------------------------------------------------------
-results <- model %>% simulate(dataset, seed=1)
+results <-  simulate(model=model, dataset=dataset, seed=1)
 head(results)
 
 ## ----get_started_spaguetti_plot, fig.align='center', fig.height=4, fig.width=8----
-spaghettiPlot(results, "CONC")
+spaghetti_plot(results)
 
 ## ----get_started_shaded_plot, fig.align='center', fig.height=4, fig.width=8----
-shadedPlot(results, "CONC")
+shaded_plot(results)
 
 ## ----get_started_2arms_plot, fig.align='center', fig.height=4, fig.width=8, message=F----
 # First treatment arm
@@ -32,6 +32,6 @@ arm2 <- Arm(subjects=50, label="2000 mg QD") %>%
 
 dataset <- Dataset() %>% add(c(arm1, arm2))
 
-results <- model %>% simulate(dataset, seed=1)
-shadedPlot(results, "CONC", colour="ARM")
+results <- simulate(model=model, dataset=dataset, seed=1)
+shaded_plot(results)
 
