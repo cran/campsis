@@ -1,7 +1,7 @@
 Type: Package
 Package: campsis
 Title: Generic PK/PD Simulation Platform Campsis
-Version: 1.9.0
+Version: 1.9.1
 Authors@R: 
     person("Nicolas", "Luyckx", , "nicolas.luyckx@calvagone.com", role = c("aut", "cre"))
 Description: A generic, easy-to-use and intuitive
@@ -58,10 +58,10 @@ Collate: 'all_classes.R' 'global.R' 'utilities.R' 'time_utilities.R'
         'default_plot.R' 'campsis_plot_helpers.R' 'spaghetti_plot.R'
         'shaded_plot.R' 'scatter_plot.R' 'vpc_plot.R'
         'deprecated_methods.R'
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
 NeedsCompilation: no
-Packaged: 2026-08-05 07:27:18 UTC; nicolas
+Packaged: 2026-09-17 11:55:56 UTC; nicolas
 Author: Nicolas Luyckx [aut, cre]
 Maintainer: Nicolas Luyckx <nicolas.luyckx@calvagone.com>
 Repository: CRAN
-Date/Publication: 2026-08-05 07:50:02 UTC
+Date/Publication: 2026-09-17 13:00:08 UTC
